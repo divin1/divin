@@ -46,7 +46,7 @@ export default function Home() {
 
       <section className="min-h-80">
         <h2 className="my-2 text-2xl font-semibold">Latest thoughts</h2>
-        <div className="w-1/2">
+        <div className="w-full md:w-1/2">
           <LatestThoughts />
         </div>
       </section>
