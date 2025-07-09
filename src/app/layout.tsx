@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     siteName: APP_CONFIG.siteName,
     images: [
       {
-        url: "/og-image.png",
+        url: "/og.png",
         width: 1200,
         height: 630,
         alt: APP_CONFIG.metadata.title,
