@@ -22,7 +22,7 @@
     --text: #ededed;
     --text-variant: var(--color-stone-400);
     --primary: var(--color-indigo-500);
-    --primary-accent: var(--color-indigo-300);
+    --primary-accent: var(--color-indigo-400);
     --border: var(--color-stone-700);
   }
 }
