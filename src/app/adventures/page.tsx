@@ -23,7 +23,7 @@ export default async function Adventures() {
               className={`relative h-[450px] max-w-[99%] flex-[0_0_99%] ${isBig ? "md:max-w-[59%] md:flex-[0_0_59%]" : "md:max-w-[39%] md:flex-[0_0_39%]"} ${isOdd ? "pl-0" : "pr-0"}`}
               key={index}
               whileHover={{ scale: 1.01 }}
-              whileTap={{ scale: 0.95 }}
+              whileTap={{ scale: 0.98 }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
             >
               <PostPreviewCard
