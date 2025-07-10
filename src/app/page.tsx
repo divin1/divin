@@ -1,6 +1,6 @@
 import { APP_CONFIG } from "@/lib/constants";
 import { Github, Linkedin, Mail } from "lucide-react";
-import LatestThoughts from "@/components/LatestThoughts";
+import PinnedThoughts from "@/components/PinnedThoughts";
 import Hello from "@/components/Hello";
 
 export default function Home() {
@@ -45,9 +45,9 @@ export default function Home() {
       </section>
 
       <section className="min-h-80">
-        <h2 className="my-2 text-2xl font-semibold">Latest thoughts</h2>
+        <h2 className="my-2 text-2xl font-semibold">Pinned thoughts</h2>
         <div className="w-full md:w-1/2">
-          <LatestThoughts />
+          <PinnedThoughts slugs={["chasing-exponential-growth"]} />
         </div>
       </section>
     </div>
