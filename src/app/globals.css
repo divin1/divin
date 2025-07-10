@@ -3,6 +3,7 @@
 
 @theme inline {
   --color-background: var(--background);
+  --color-background-variant: var(--background-variant);
   --color-foreground: var(--foreground);
   --color-text: var(--text);
   --color-text-variant: var(--text-variant);
@@ -16,6 +17,7 @@
 @layer {
   :root {
     --background: #0a0a0a;
+    --background-variant: #242323;
     --foreground: #ededed;
     --text: #ededed;
     --text-variant: var(--color-stone-400);
