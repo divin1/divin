@@ -21,6 +21,7 @@ export default async function Thoughts() {
             readTime={post.readTime}
             date={post.metadata.date}
             title={post.metadata.title}
+            excerpt={post.metadata.excerpt}
           />
         ))}
       </div>
