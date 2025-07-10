@@ -34,7 +34,6 @@ export async function GET() {
       id: url,
       link: url,
       description: post.metadata.excerpt,
-      content: post.content,
       author: [
         {
           name: APP_CONFIG.author,
