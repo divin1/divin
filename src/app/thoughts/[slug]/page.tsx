@@ -36,14 +36,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       url: `${APP_CONFIG.domain}/thoughts/${slug}`,
       type: "article",
       publishedTime: post.date,
-      images: [
-        {
-          url: `/${slug}.png`,
-          width: 1200,
-          height: 630,
-          alt: post.title,
-        },
-      ],
     },
   };
 }
