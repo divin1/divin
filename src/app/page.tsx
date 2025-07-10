@@ -29,15 +29,15 @@ export default function Home() {
 
             <div className="flex gap-6">
               <a href={APP_CONFIG.github} target="_blank" aria-label="GitHub" rel="noreferrer">
-                <Github className="hover:text-primary size-4 transition-colors delay-50 duration-200" />
+                <Github className="fill-foreground/30 hover:text-primary hover:fill-primary/30 size-5 transition-colors duration-100" />
               </a>
 
               <a href={APP_CONFIG.linkedin} target="_blank" aria-label="LinkedIn" rel="noreferrer">
-                <Linkedin className="hover:text-primary size-4 transition-colors delay-50 duration-200" />
+                <Linkedin className="fill-foreground/30 hover:text-primary hover:fill-primary/30 size-5 transition-colors duration-100" />
               </a>
 
               <a href={`mailto:${APP_CONFIG.email}`} aria-label="Email">
-                <Mail className="hover:text-primary size-4 transition-colors delay-50 duration-200" />
+                <Mail className="fill-foreground/30 hover:text-primary hover:fill-primary/30 size-5 transition-colors duration-100" />
               </a>
             </div>
           </div>
