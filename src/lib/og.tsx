@@ -11,7 +11,7 @@ export type OgImageProps = {
 };
 
 export async function generateOgImage({ title, size }: OgImageProps) {
-  const fontData = await readFile(join(process.cwd(), "assets/Inter-Bold.ttf"));
+  const fontData = await readFile(join(process.cwd(), "public/assets/Inter-Bold.ttf"));
 
   return new ImageResponse(
     (
