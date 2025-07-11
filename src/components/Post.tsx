@@ -39,14 +39,14 @@ export default async function Post({ post, backTo, backToText }: PostProps) {
 
       <div className="mx-auto max-w-prose">
         <h1 className="text-primary text-4xl font-bold">{post.metadata.title}</h1>
-        <span className="text-sm">
+        <span className="text-text-variant text-base">
           {new Date(post.metadata.date).toLocaleDateString("en-US", {
             month: "long",
             year: "numeric",
           })}
         </span>
 
-        <div className="prose prose-stone dark:prose-invert prose-h1:text-primary prose-p:text-lg prose-a:text-primary hover:prose-a:text-primary-accent prose-img:rounded-md prose-img:shadow-md mt-5">
+        <div className="prose prose-invert prose-stone prose-h1:text-primary prose-p:text-lg prose-a:text-primary hover:prose-a:text-primary-accent prose-img:rounded-md prose-img:shadow-md mt-5">
           {renderMdx({ source: post.content, components })}
         </div>
       </div>
