@@ -4,7 +4,6 @@ import "./globals.css";
 import { APP_CONFIG } from "@/lib/constants";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import { ThemeProvider } from "next-themes";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -65,13 +64,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className} ${geistMono.variable} antialiased`}>
-        <ThemeProvider attribute="class">
-          <Header />
+        <Header />
 
-          <main className="mx-auto min-h-screen w-full px-6 md:max-w-[1280px]">{children}</main>
+        <main className="mx-auto min-h-screen w-full px-6 md:max-w-[1280px]">{children}</main>
 
-          <Footer />
-        </ThemeProvider>
+        <Footer />
         <Analytics />
         <SpeedInsights />
       </body>
