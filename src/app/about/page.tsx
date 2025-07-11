@@ -4,14 +4,14 @@ export default function About() {
       <div>
         <h1 className="my-2 text-2xl font-bold">About me</h1>
         <p>
-          Hi, I&rsquo;m Nicolas &mdash; born in 1996 and raised in the beautiful and sunny region of
+          Hi, I&rsquo;m Nicolas. I was born in 1996 and raised in the beautiful and sunny region of
           Ticino, Switzerland.
         </p>
         <p>
-          Today, I&rsquo;m based in Bern, working as a lead engineer at a startup that&rsquo;s on a
-          mission to bring real innovation to one of the most traditional, slow-moving industries
-          out there. We&rsquo;re using technology to challenge the status quo &mdash; and it&rsquo;s
-          as exciting as it sounds.
+          Today, I&rsquo;m based in Bern, working as full-stack engineer at a startup that&rsquo;s
+          on a mission to bring real innovation to one of the most traditional, slow-moving
+          industries out there. We&rsquo;re using technology to challenge the status quo and
+          it&rsquo;s as exciting as it sounds.
         </p>
         <p>
           From a young age, I&rsquo;ve been driven by curiosity. Whether it was taking apart Lego
@@ -22,9 +22,9 @@ export default function About() {
         </p>
         <p>
           Computer Science and the digital world instantly resonated with my need for expression.
-          It&rsquo;s a fast-evolving, fluid space &mdash; constantly shifting and expanding. It
-          offers endless opportunities for discovery, continuous learning, and technical challenges,
-          all while allowing for unlimited freedom in creativity and self-expression. There&rsquo;s
+          It&rsquo;s a fast-evolving, fluid space, constantly shifting and expanding. It offers
+          endless opportunities for discovery, continuous learning, and technical challenges, all
+          while allowing for unlimited freedom in creativity and self-expression. There&rsquo;s
           something uniquely empowering about sitting down at a desk, opening a laptop, and being
           able to build something valuable from nothing &mdash; well, almost nothing.
         </p>
