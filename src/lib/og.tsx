@@ -1,6 +1,6 @@
-import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
+import { ImageResponse } from "next/og";
 
 export type OgImageProps = {
   title: string;
@@ -11,58 +11,17 @@ export type OgImageProps = {
 };
 
 export async function generateOgImage({ title, size }: OgImageProps) {
-  const inter = await readFile(join(process.cwd(), "src/assets/Inter-Bold.ttf"));
+  const fontData = await readFile(join(process.cwd(), "assets/Inter-Bold.ttf"));
 
   return new ImageResponse(
     (
-      <div
-        style={{
-          height: "100%",
-          width: "100%",
-          display: "flex",
-          flexDirection: "column",
-          backgroundColor: "#0a0a0a",
-          justifyContent: "space-between",
-          fontFamily: "Inter-Bold",
-          color: "#ededed",
-          padding: "40px",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          <div
-            style={{
-              marginTop: "40px",
-              fontSize: "96px",
-              fontWeight: "900",
-              lineHeight: "6rem",
-              padding: "0 0 100px 0",
-              letterSpacing: "-0.025em",
-              color: "#ededed",
-              fontFamily: "Inter-Bold",
-              lineClamp: 4,
-            }}
-          >
+      <div tw="w-full h-full flex flex-col bg-[#0a0a0a] text-[#ededed] justify-between p-10">
+        <div tw="flex flex-col">
+          <div tw="mt-10 text-6xl font-bold leading-[6rem] px-0 pb-24 tracking-tight text-[#ededed]">
             {title}
           </div>
         </div>
-        <div
-          style={{
-            fontSize: "32px",
-            fontWeight: "900",
-            color: "#ededed",
-            display: "flex",
-            textAlign: "right",
-            width: "100%",
-            justifyContent: "flex-end",
-          }}
-        >
-          divin.me
-        </div>
+        <div tw="text-2xl font-bold text-text flex justify-end w-full">divin.me</div>
       </div>
     ),
     {
@@ -70,7 +29,7 @@ export async function generateOgImage({ title, size }: OgImageProps) {
       fonts: [
         {
           name: "Inter",
-          data: inter,
+          data: fontData,
           style: "normal",
           weight: 700,
         },
