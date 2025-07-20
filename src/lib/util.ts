@@ -1,5 +1,5 @@
 // Over-simplified function to remove most of the md & html tags
-function mdxToText(mdxContent: string): string {
+export function mdxToText(mdxContent: string): string {
   return (
     mdxContent
       // HTML
