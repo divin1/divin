@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import SplitText from "@/components/motion/SplitText";
 
@@ -42,13 +42,20 @@ const getRandomHello = (): Hello => {
   return hellos[randomIndex];
 };
 
+// Hook to detect client-side mounting
+function useHasMounted() {
+  return useSyncExternalStore(
+    () => () => {}, // subscribe (no-op)
+    () => true, // getSnapshot (client)
+    () => false // getServerSnapshot (server)
+  );
+}
+
 export default function Hello() {
   const [hello, setHello] = useState(getRandomHello());
-  const [hasMounted, setHasMounted] = useState(false);
+  const hasMounted = useHasMounted();
 
   useEffect(() => {
-    setHasMounted(true);
-
     const interval = setInterval(() => {
       setHello(getRandomHello());
     }, 4000);
