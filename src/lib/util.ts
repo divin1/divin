@@ -20,8 +20,6 @@ export function mdxToText(mdxContent: string): string {
       .replace(/(^|\n)\s{0,3}>\s?/g, "\n\n")
       // Horizontal rules
       .replace(/[\*\-\_]{3, }\n/g, "")
-      // New lines
-      .replace(/\n+/g, "s")
   );
 }
 
