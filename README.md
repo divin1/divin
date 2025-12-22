@@ -4,8 +4,8 @@ Source code for my website/blog @ [divin.me](https://divin.me).
 
 Built with:
 
-* Next.js 15
-* React 18
+* Next.js 16
+* React 19
 * Tailwind CSS
 * Headless UI
 * Motion
