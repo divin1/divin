@@ -18,6 +18,9 @@ const eslintConfig = [
   {
     ignores: ["node_modules/**", ".next/**", "out/**", "build/**", "next-env.d.ts"],
   },
+  {
+    files: ["src/**/*.{js,jsx,ts,tsx}", "tools/**/*.{js,jsx,ts,tsx}"],
+  },
 ];
 
 export default eslintConfig;
