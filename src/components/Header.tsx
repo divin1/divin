@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { House, Umbrella, Lightbulb, Menu as MenuIcon } from "lucide-react";
+import { House, Umbrella, Lightbulb, Menu as MenuIcon, TestTubeDiagonal } from "lucide-react";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { AnimatePresence, motion } from "motion/react";
 
@@ -10,6 +10,7 @@ const links = [
   { href: "/", label: "Home", icon: House },
   { href: "/about", label: "About", icon: Umbrella },
   { href: "/thoughts", label: "Thoughts", icon: Lightbulb },
+  { href: "/projects", label: "Projects", icon: TestTubeDiagonal },
 ];
 
 function Header() {

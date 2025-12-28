@@ -1,10 +1,15 @@
 import { APP_CONFIG } from "@/lib/constants";
 import { Github, Linkedin, Mail } from "lucide-react";
-import PinnedThoughts from "@/components/PinnedThoughts";
 import Hello from "@/components/Hello";
 import InteractiveWord from "@/components/InteractiveWord";
+import PinnedPosts from "@/components/PinnedPosts";
+import { THOUGHTS_PATH, PROJECTS_PATH, getPosts } from "@/lib/api";
+import Link from "next/link";
 
-export default function Home() {
+export default async function Home() {
+  const thoughts = await getPosts(THOUGHTS_PATH);
+  const projects = await getPosts(PROJECTS_PATH);
+
   return (
     <div>
       <section className="flex h-screen flex-col justify-center">
@@ -20,7 +25,7 @@ export default function Home() {
             </InteractiveWord>
             .
           </div>
-          <div className="mt-1 text-3xl font-bold">
+          <div className="mt-1 text-3xl leading-10 font-bold">
             I share my{" "}
             <InteractiveWord href="#experiments" hash="experiments">
               experiments
@@ -61,7 +66,26 @@ export default function Home() {
       <section className="min-h-80" id="thoughts">
         <h2 className="my-2 text-2xl font-semibold">Pinned thoughts</h2>
         <div className="w-full md:w-1/2">
-          <PinnedThoughts slugs={["chasing-exponential-growth"]} />
+          <PinnedPosts slugs={["chasing-exponential-growth"]} posts={thoughts} />
+          <Link
+            href="/thoughts"
+            className="text-primary hover:text-primary-accent mt-4 inline-block text-sm"
+          >
+            See all thoughts →
+          </Link>
+        </div>
+      </section>
+
+      <section className="min-h-80" id="experiments">
+        <h2 className="my-2 text-2xl font-semibold">Pinned projects</h2>
+        <div className="w-full md:w-1/2">
+          <PinnedPosts slugs={["advent-of-slop"]} posts={projects} />
+          <Link
+            href="/projects"
+            className="text-primary hover:text-primary-accent mt-4 inline-block text-sm"
+          >
+            See all projects →
+          </Link>
         </div>
       </section>
     </div>
