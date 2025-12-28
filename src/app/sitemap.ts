@@ -1,4 +1,4 @@
-import { getPosts, THOUGHTS_PATH, ADVENTURES_PATH } from "@/lib/api";
+import { getPosts, THOUGHTS_PATH } from "@/lib/api";
 import { MetadataRoute } from "next";
 import { APP_CONFIG } from "@/lib/constants";
 
@@ -8,7 +8,6 @@ export default async function GET(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = APP_CONFIG.domain;
 
   const thoughts = await getPosts(THOUGHTS_PATH);
-  const adventures = await getPosts(ADVENTURES_PATH);
 
   return [
     {
@@ -27,15 +26,6 @@ export default async function GET(): Promise<MetadataRoute.Sitemap> {
       (post) =>
         ({
           url: `${baseUrl}/thoughts/${post.slug}`,
-          lastModified: new Date(post.metadata.date),
-          changeFrequency: "monthly",
-          priority: 1,
-        }) as SitemapEntry
-    ),
-    ...adventures.map(
-      (post) =>
-        ({
-          url: `${baseUrl}/adventures/${post.slug}`,
           lastModified: new Date(post.metadata.date),
           changeFrequency: "monthly",
           priority: 1,

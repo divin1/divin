@@ -6,7 +6,6 @@ import { getReadTime } from "@/lib/util";
 import { PostMetadata } from "@/lib/types";
 
 export const THOUGHTS_PATH = join(process.cwd(), "content/thoughts");
-export const ADVENTURES_PATH = join(process.cwd(), "content/adventures");
 
 /**
  * Get all filenames in a directory.
