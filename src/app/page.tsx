@@ -2,6 +2,7 @@ import { APP_CONFIG } from "@/lib/constants";
 import { Github, Linkedin, Mail } from "lucide-react";
 import PinnedThoughts from "@/components/PinnedThoughts";
 import Hello from "@/components/Hello";
+import InteractiveWord from "@/components/InteractiveWord";
 
 export default function Home() {
   return (
@@ -12,11 +13,24 @@ export default function Home() {
             <Hello />
           </div>
 
-          <div className="mt-3 text-3xl font-bold">I&rsquo;m Nicolas.</div>
+          <div className="mt-3 text-3xl font-bold">
+            I&rsquo;m{" "}
+            <InteractiveWord href="/about" hash="about">
+              Nicolas
+            </InteractiveWord>
+            .
+          </div>
           <div className="mt-1 text-3xl font-bold">
-            Techie by trade, explorer at heart.
-            <br />I write about tech, data, people, and adventures &mdash; both in code and in
-            nature.
+            I share my{" "}
+            <InteractiveWord href="#experiments" hash="experiments">
+              experiments
+            </InteractiveWord>{" "}
+            and{" "}
+            <InteractiveWord href="#thoughts" hash="thoughts">
+              thoughts
+            </InteractiveWord>{" "}
+            about software engineering, data science, and &mdash; the engine of it all &mdash;
+            people.
           </div>
 
           <div className="mt-16 flex flex-col gap-6">
@@ -44,7 +58,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="min-h-80">
+      <section className="min-h-80" id="thoughts">
         <h2 className="my-2 text-2xl font-semibold">Pinned thoughts</h2>
         <div className="w-full md:w-1/2">
           <PinnedThoughts slugs={["chasing-exponential-growth"]} />
