@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import CursorHalo from "@/components/CursorHalo";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -64,6 +65,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className} ${geistMono.variable} antialiased`}>
+        <CursorHalo />
         <Header />
 
         <main className="mx-auto min-h-screen w-full px-6 md:max-w-[1280px]">{children}</main>
