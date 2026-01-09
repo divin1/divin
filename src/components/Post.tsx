@@ -6,11 +6,28 @@ import { renderMdx } from "@/lib/mdx";
 import Gallery from "@/components/posts/Gallery";
 import GpxMap from "@/components/posts/GpxMap";
 import CustomLink from "@/components/posts/CustomLink";
+import {
+  LineChart,
+  BarChart,
+  AreaChart,
+  PieChart,
+  BarList,
+} from "@/components/posts/charts/ChartComponents";
+import { Tabs, Tab } from "@/components/posts/Tabs";
+import Heatmap from "@/components/posts/charts/Heatmap";
 
 // load components to pass to MDX
 const components = {
   Gallery,
   GpxMap,
+  LineChart,
+  BarChart,
+  AreaChart,
+  PieChart,
+  BarList,
+  Heatmap,
+  Tabs,
+  Tab,
   img: ImageWrapper,
   a: CustomLink,
 };
