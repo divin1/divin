@@ -1,5 +1,6 @@
 import { MDXRemote } from "next-mdx-remote/rsc";
 import * as runtime from "react/jsx-runtime";
+import remarkGfm from "remark-gfm";
 
 interface RenderMdxOptions {
   source: string;
@@ -10,7 +11,12 @@ interface RenderMdxOptions {
 export async function renderMdx({ source, components = {} }: RenderMdxOptions) {
   return MDXRemote({
     source,
-    options: { parseFrontmatter: true },
+    options: {
+      parseFrontmatter: true,
+      mdxOptions: {
+        remarkPlugins: [remarkGfm],
+      },
+    },
     components,
     // @ts-expect-error annoying to type
     unstable_runtimeJSX: runtime,
