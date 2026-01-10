@@ -66,7 +66,7 @@ export default async function Home() {
       <section className="min-h-80" id="thoughts">
         <h2 className="my-2 text-2xl font-semibold">Pinned thoughts</h2>
         <div className="w-full md:w-1/2">
-          <PinnedPosts slugs={["chasing-exponential-growth"]} posts={thoughts} />
+          <PinnedPosts folder="thoughts" slugs={["chasing-exponential-growth"]} posts={thoughts} />
           <Link
             href="/thoughts"
             className="text-primary hover:text-primary-accent mt-4 inline-block text-sm"
@@ -79,7 +79,7 @@ export default async function Home() {
       <section className="min-h-80" id="experiments">
         <h2 className="my-2 text-2xl font-semibold">Pinned projects</h2>
         <div className="w-full md:w-1/2">
-          <PinnedPosts slugs={["advent-of-slop"]} posts={projects} />
+          <PinnedPosts folder="projects" slugs={["advent-of-slop"]} posts={projects} />
           <Link
             href="/projects"
             className="text-primary hover:text-primary-accent mt-4 inline-block text-sm"
