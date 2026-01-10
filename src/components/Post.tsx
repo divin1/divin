@@ -63,7 +63,7 @@ export default async function Post({ post, backTo, backToText }: PostProps) {
           })}
         </span>
 
-        <div className="prose prose-invert prose-stone prose-h1:text-primary prose-p:text-lg prose-a:text-primary hover:prose-a:text-primary-accent prose-img:rounded-md prose-img:shadow-md mt-5">
+        <div className="prose prose-invert prose-stone prose-h1:text-primary prose-p:text-lg prose-a:text-primary prose-a:hover:text-primary-accent prose-img:rounded-md prose-img:shadow-md mt-5">
           {renderMdx({ source: post.content, components })}
         </div>
       </div>
