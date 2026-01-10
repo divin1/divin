@@ -1,6 +1,6 @@
 import Link from "next/link";
 import ImageWrapper from "@/components/posts/ImageWrapper";
-import { ArrowLeft } from "lucide-react";
+import { ChevronRight, Home } from "lucide-react";
 import { CompiledPost } from "@/lib/types";
 import { renderMdx } from "@/lib/mdx";
 import Gallery from "@/components/posts/Gallery";
@@ -41,18 +41,26 @@ type PostProps = {
 export default async function Post({ post, backTo, backToText }: PostProps) {
   return (
     <article className="my-20 flex flex-col">
-      <div className="mb-4">
+      {/* Breadcrumbs */}
+      <nav className="mb-6 flex items-center gap-2 text-sm">
+        <Link
+          href="/"
+          className="text-text-variant hover:text-primary flex items-center transition-colors"
+        >
+          <Home className="size-4" />
+        </Link>
+        <ChevronRight className="text-text-variant/50 size-3" />
         <Link
           href={backTo}
-          passHref
-          className="hover:text-primary text-text-variant font-bold transition duration-200 ease-in-out"
+          className="text-text-variant hover:text-primary capitalize transition-colors"
         >
-          <span className="flex flex-row items-center">
-            <ArrowLeft className="h4 mr-4 size-4" />
-            {backToText}
-          </span>
+          {backToText}
         </Link>
-      </div>
+        <ChevronRight className="text-text-variant/50 size-3" />
+        <span className="text-foreground truncate max-w-[200px] sm:max-w-[300px]">
+          {post.metadata.title}
+        </span>
+      </nav>
 
       <div className="mx-auto max-w-prose">
         <h1 className="text-primary text-4xl font-bold">{post.metadata.title}</h1>
