@@ -17,8 +17,8 @@ export function Tabs({ children, defaultTab = 0 }) {
             onClick={() => setActiveTab(index)}
             className={`px-4 py-2 font-medium transition-colors ${
               activeTab === index
-                ? "border-b-2 border-primary text-primary"
-                : "text-gray-600 hover:text-primary-accent"
+                ? "border-primary text-primary border-b-2"
+                : "hover:text-primary-accent text-gray-600"
             }`}
           >
             {tab.props.label}

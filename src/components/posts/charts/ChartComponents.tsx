@@ -53,12 +53,14 @@ interface PieChartProps extends BaseChartProps {
 }
 
 const defaultColors = [
-  "#3b82f6", // blue
-  "#8b5cf6", // violet
-  "#d946ef", // fuchsia
-  "#f59e0b", // amber
-  "#10b981", // emerald
-  "#f43f5e", // rose
+  "#7c86ff",
+  "#a684ff",
+  "#ed6bff",
+  "#fb64b6",
+  "#ff637e",
+  "#51a2ff",
+  "#00bcff",
+  "#00d3f2",
 ];
 
 function formatValue(
@@ -260,7 +262,10 @@ export function BarChart({
     return (
       <Chart title={title} description={description} className={className}>
         <ResponsiveContainer width="100%" height={xAxisAngle !== 0 ? 400 : 320}>
-          <RechartsBar data={pivotedData} margin={{ top: 5, right: 20, left: 0, bottom: bottomMargin }}>
+          <RechartsBar
+            data={pivotedData}
+            margin={{ top: 5, right: 20, left: 0, bottom: bottomMargin }}
+          >
             {showGrid && (
               <CartesianGrid
                 strokeDasharray="3 3"
@@ -288,7 +293,7 @@ export function BarChart({
             />
             <Tooltip
               content={<CustomTooltip valueFormatter={valueFormatter} />}
-              cursor={{ fill: "rgba(255, 255, 255, 0.05)" }}
+              cursor={{ fill: "rgba(99, 102, 241, 0.08)", radius: 4 }}
             />
             {showLegend && (
               <Legend
@@ -307,7 +312,12 @@ export function BarChart({
                 name={group}
                 fill={colors[index % colors.length]}
                 radius={[4, 4, 0, 0]}
-                activeBar={{ fill: "rgba(255, 255, 255, 0.2)" }}
+                maxBarSize={40}
+                activeBar={{
+                  fill: colors[index % colors.length],
+                  fillOpacity: 0.7,
+                  filter: "brightness(1.3)",
+                }}
               />
             ))}
           </RechartsBar>
@@ -357,7 +367,7 @@ export function BarChart({
           />
           <Tooltip
             content={<CustomTooltip valueFormatter={valueFormatter} />}
-            cursor={{ fill: "rgba(255, 255, 255, 0.05)" }}
+            cursor={{ fill: "rgba(99, 102, 241, 0.08)", radius: 4 }}
           />
           {showLegend && (
             <Legend
@@ -376,12 +386,14 @@ export function BarChart({
               name={item.label}
               fill={useCellColors ? undefined : colors[index % colors.length]}
               radius={[4, 4, 0, 0]}
-              activeBar={{ fill: "rgba(255, 255, 255, 0.2)" }}
+              maxBarSize={40}
+              activeBar={{
+                fillOpacity: 0.7,
+                filter: "brightness(1.3)",
+              }}
             >
               {useCellColors &&
-                data.map((_, i) => (
-                  <Cell key={`cell-${i}`} fill={colors[i % colors.length]} />
-                ))}
+                data.map((_, i) => <Cell key={`cell-${i}`} fill={colors[i % colors.length]} />)}
             </Bar>
           ))}
         </RechartsBar>
