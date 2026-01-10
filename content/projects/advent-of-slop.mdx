@@ -1,0 +1,507 @@
+---
+date: "2025-12-25T10:00:00Z"
+updated: "2025-12-25T10:00:00Z"
+draft: false
+hidden: false
+title: "Advent of Slop"
+excerpt: "A mildly unhinged but scientifically curious project that evaluates how well popular Large Language Models (LLMs) can solve programming challenges from Advent of Code."
+tags: [ai, experiment]
+keywords: [ai, llm, advent of code, advent of slop, advent of code with llm, openai, gpt, gpt5, claude, gemini, gemini 3]
+cover: ""
+---
+
+**Advent of Slop** is a benchmark study designed to test how the current generation of Large Language Models (LLMs) performs nearly autonomously on tasks described in natural language. By providing models with raw, multi-part problem descriptions from [Advent of Code 2025](https://adventofcode.com/2025/), the project evaluates their ability to reason through challenging problems across different programming languages and produce executable code without human intervention. The focus is on measuring correctness, variance across multiple passes, and cost-efficiency of models ranging from "nano" to "Opus" tiers.
+
+## Introduction
+
+The idea for *Advent of Slop* was born from my yearly dilemma: wanting to participate in [Advent of Code](https://adventofcode.com) but being too busy to actually do it. Given personal time constraints and the inescapable hype around LLMs in software engineering, it was a no-brainer to take on this project to spice up the holidays.
+
+The premise is simple: ask models to "act like a developer." This means managing the full process autonomously: reading a wall of text, figuring out that there may be two parts to the problem, handling file I/O, and printing numeric answers.
+
+## Methodology
+
+### 1. The Dataset
+
+The evaluation uses a structured dataset containing the full problem descriptions and verified solutions for the 2025 calendar. Each day consists of:
+
+* **The Problem:** The full text (Part 1 and Part 2) as seen on the AoC website.
+* **The Input:** Unique puzzle inputs stored as `.txt` files.
+* **The Ground Truth:** Expected numeric or string answers to validate the model's output.
+
+### 2. The Contenders
+
+I selected a lineup of the latest models available as of late 2025, covering three major providers via [LiteLLM](https://github.com/BerriAI/litellm):
+
+| Provider | Models Evaluated |
+| :--- | :--- |
+| **OpenAI** | `gpt-5.2`, `gpt-5-mini`, `gpt-5-nano` |
+| **Anthropic** | `claude-opus-4.5`, `claude-sonnet-4.5`, `claude-haiku-4.5` |
+| **Google** | `gemini-3-pro-preview`, `gemini-3-flash-preview` |
+
+### 3. The Languages
+
+The selection includes popular programming languages balancing interpreted vs. compiled, strict vs. flexible syntax, and imperative vs. functional paradigms. A key constraint was avoiding excessive verbosity to ensure responses fit within context windows &mdash; particularly challenging for smaller models like GPT-5 nano. This led to choosing JavaScript over TypeScript and dropping candidates like Java and C#.
+
+1. Python
+2. Rust
+3. Go
+4. JavaScript
+5. C++
+6. C
+7. R
+
+### 4. The Execution Pipeline
+
+The project uses a custom orchestrator built in Python (`src/evaluator.py`) and a multi-language execution engine (`src/executor.py`).
+
+1. **Prompting:** Models receive a consistent system prompt and the full puzzle text. They must output code that reads input from a file path passed as `sys.argv[1]`.
+2. **Generation:** The model generates code in one of the supported languages.
+3. **Execution:** The `Executor` handles compilation (for Rust, C, C++) or direct interpretation (Python, JS, R) and runs the code against the puzzle input with a 30-second timeout.
+4. **Validation:** The script captures `stdout` and compares it to the ground truth.
+
+## Results
+
+<BarChart
+  data={[
+    { model: "GPT-5.2", accuracy: 63.6 },
+    { model: "GPT-5 mini", accuracy: 55.9 },
+    { model: "GPT-5 nano", accuracy: 7.6 },
+    { model: "Claude Opus 4.5", accuracy: 56.8 },
+    { model: "Claude Sonnet 4.5", accuracy: 40.9 },
+    { model: "Claude Haiku 4.5", accuracy: 19.6 },
+    { model: "Gemini 3 Pro", accuracy: 70.4 },
+    { model: "Gemini 3 Flash", accuracy: 62.1 }
+  ]}
+  xKey="model"
+  xAxisAngle={-45}
+  yKeys={[
+    {
+      key: "accuracy",
+      label: "Mean Accuracy",
+    },
+  ]}
+  title="Overall Model Accuracy Ranking"
+  description="Mean accuracy averaged across all programming languages, problems, and passes."
+  valueFormatter="percent"
+  showGrid={false}
+  showLegend={false}
+  className="mt-6"
+/>
+
+Gemini 3 Pro leads the rankings at 70.4%, though no model achieves what might be considered "reliable" performance. The biggest surprises are GPT-5 mini and Gemini 3 Flash, which come remarkably close to their larger counterparts, perhaps suggesting that for this type of task, the mid-tier models offer compelling cost-performance tradeoffs.
+
+### Performance by programming language
+
+This breakdown observes which models are generalists and which specialize in particular languages.
+
+<Tabs defaultTab={0}>
+
+<Tab label="Python">
+<BarChart
+  data={[
+    { model: "GPT-5.2", accuracy: 63.9 },
+    { model: "GPT-5 mini", accuracy: 72.2 },
+    { model: "GPT-5 nano", accuracy: 16.7 },
+    { model: "Claude Opus 4.5", accuracy: 44.4 },
+    { model: "Claude Sonnet 4.5", accuracy: 33.3 },
+    { model: "Claude Haiku 4.5", accuracy: 4.2 },
+    { model: "Gemini 3 Pro", accuracy: 87.5 },
+    { model: "Gemini 3 Flash", accuracy: 44.4 }
+  ]}
+  xKey="model"
+  xAxisAngle={-45}
+  yKeys={[
+    {
+      key: "accuracy",
+      label: "Mean Accuracy",
+    },
+  ]}
+  title="Python: Model Accuracy Ranking"
+  description="Mean accuracy in Python averaged across all problems and passes."
+  valueFormatter="percent"
+  showGrid={false}
+  showLegend={false}
+  className="mt-6"
+/>
+</Tab>
+
+<Tab label="Rust">
+<BarChart
+  data={[
+    { model: "GPT-5.2", accuracy: 63.4 },
+    { model: "GPT-5 mini", accuracy: 61.1 },
+    { model: "GPT-5 nano", accuracy: 0 },
+    { model: "Claude Opus 4.5", accuracy: 62.5 },
+    { model: "Claude Sonnet 4.5", accuracy: 19.4 },
+    { model: "Claude Haiku 4.5", accuracy: 13.9 },
+    { model: "Gemini 3 Pro", accuracy: 76.4 },
+    { model: "Gemini 3 Flash", accuracy: 69.4 }
+  ]}
+  xKey="model"
+  xAxisAngle={-45}
+  yKeys={[
+    {
+      key: "accuracy",
+      label: "Mean Accuracy",
+    },
+  ]}
+  title="Rust: Model Accuracy Ranking"
+  description="Mean accuracy in Rust averaged across all problems and passes."
+  valueFormatter="percent"
+  showGrid={false}
+  showLegend={false}
+  className="mt-6"
+/>
+</Tab>
+
+<Tab label="Go">
+<BarChart
+  data={[
+    { model: "GPT-5.2", accuracy: 66.7 },
+    { model: "GPT-5 mini", accuracy: 29.2 },
+    { model: "GPT-5 nano", accuracy: 5.6 },
+    { model: "Claude Opus 4.5", accuracy: 63.4 },
+    { model: "Claude Sonnet 4.5", accuracy: 54.2 },
+    { model: "Claude Haiku 4.5", accuracy: 29.2 },
+    { model: "Gemini 3 Pro", accuracy: 66.7 },
+    { model: "Gemini 3 Flash", accuracy: 65.3 }
+  ]}
+  xKey="model"
+  xAxisAngle={-45}
+  yKeys={[
+    {
+      key: "accuracy",
+      label: "Mean Accuracy",
+    },
+  ]}
+  title="Go: Model Accuracy Ranking"
+  description="Mean accuracy in Go averaged across all problems and passes."
+  valueFormatter="percent"
+  showGrid={false}
+  showLegend={false}
+  className="mt-6"
+/>
+</Tab>
+
+<Tab label="JavaScript">
+<BarChart
+  data={[
+    { model: "GPT-5.2", accuracy: 65.3 },
+    { model: "GPT-5 mini", accuracy: 73.6 },
+    { model: "GPT-5 nano", accuracy: 8.3 },
+    { model: "Claude Opus 4.5", accuracy: 62.5 },
+    { model: "Claude Sonnet 4.5", accuracy: 45.8 },
+    { model: "Claude Haiku 4.5", accuracy: 25 },
+    { model: "Gemini 3 Pro", accuracy: 90.3 },
+    { model: "Gemini 3 Flash", accuracy: 77.8 }
+  ]}
+  xKey="model"
+  xAxisAngle={-45}
+  yKeys={[
+    {
+      key: "accuracy",
+      label: "Mean Accuracy",
+    },
+  ]}
+  title="JavaScript: Model Accuracy Ranking"
+  description="Mean accuracy in JavaScript averaged across all problems and passes."
+  valueFormatter="percent"
+  showGrid={false}
+  showLegend={false}
+  className="mt-6"
+/>
+</Tab>
+
+<Tab label="C">
+<BarChart
+  data={[
+    { model: "GPT-5.2", accuracy: 48.6 },
+    { model: "GPT-5 mini", accuracy: 50 },
+    { model: "GPT-5 nano", accuracy: 0 },
+    { model: "Claude Opus 4.5", accuracy: 47.2 },
+    { model: "Claude Sonnet 4.5", accuracy: 38.9 },
+    { model: "Claude Haiku 4.5", accuracy: 25 },
+    { model: "Gemini 3 Pro", accuracy: 47.2 },
+    { model: "Gemini 3 Flash", accuracy: 62.5 }
+  ]}
+  xKey="model"
+  xAxisAngle={-45}
+  yKeys={[
+    {
+      key: "accuracy",
+      label: "Mean Accuracy",
+    },
+  ]}
+  title="C: Model Accuracy Ranking"
+  description="Mean accuracy in C averaged across all problems and passes."
+  valueFormatter="percent"
+  showGrid={false}
+  showLegend={false}
+  className="mt-6"
+/>
+</Tab>
+
+<Tab label="C++">
+<BarChart
+  data={[
+    { model: "GPT-5.2", accuracy: 63.4 },
+    { model: "GPT-5 mini", accuracy: 66.7 },
+    { model: "GPT-5 nano", accuracy: 2.8 },
+    { model: "Claude Opus 4.5", accuracy: 50 },
+    { model: "Claude Sonnet 4.5", accuracy: 40.3 },
+    { model: "Claude Haiku 4.5", accuracy: 20.8 },
+    { model: "Gemini 3 Pro", accuracy: 66.7 },
+    { model: "Gemini 3 Flash", accuracy: 48.6 }
+  ]}
+  xKey="model"
+  xAxisAngle={-45}
+  yKeys={[
+    {
+      key: "accuracy",
+      label: "Mean Accuracy",
+    },
+  ]}
+  title="C++: Model Accuracy Ranking"
+  description="Mean accuracy in C++ averaged across all problems and passes."
+  valueFormatter="percent"
+  showGrid={false}
+  showLegend={false}
+  className="mt-6"
+/>
+</Tab>
+
+<Tab label="R">
+<BarChart
+  data={[
+    { model: "GPT-5.2", accuracy: 27.8 },
+    { model: "GPT-5 mini", accuracy: 23.6 },
+    { model: "GPT-5 nano", accuracy: 0 },
+    { model: "Claude Opus 4.5", accuracy: 44.4 },
+    { model: "Claude Sonnet 4.5", accuracy: 33.3 },
+    { model: "Claude Haiku 4.5", accuracy: 4.2 },
+    { model: "Gemini 3 Pro", accuracy: 58.3 },
+    { model: "Gemini 3 Flash", accuracy: 44.4 }
+  ]}
+  xKey="model"
+  xAxisAngle={-45}
+  yKeys={[
+    {
+      key: "accuracy",
+      label: "Mean Accuracy",
+    },
+  ]}
+  title="R: Model Accuracy Ranking"
+  description="Mean accuracy in R averaged across all problems and passes."
+  valueFormatter="percent"
+  showGrid={false}
+  showLegend={false}
+  className="mt-6"
+/>
+</Tab>
+</Tabs>
+
+Several patterns emerge from the per-language breakdown:
+
+- **Gemini 3 Pro dominates interpreted languages**, hitting 90.3% on JavaScript and 87.5% on Python. This suggests strong training data coverage for these ubiquitous languages.
+- **GPT-5 mini punches above its weight** in Python (72.2%) and JavaScript (73.6%), actually outperforming GPT-5.2 in these languages.
+- **Claude models show surprising weakness in Python**, with Opus at just 44.4% compared to its stronger performance in Go (63.4%) and Rust (62.5%).
+- **R is universally challenging**, with even the best performer (Gemini 3 Pro) only reaching 58.3%. The smaller models essentially fail completely.
+- **Nano-tier models collapse** on compiled languages: GPT-5 nano scores 0% on both Rust and C, suggesting these models lack the capacity to handle strict type systems and compilation requirements.
+
+### Cross-language comparison
+
+<Heatmap
+  data={[
+    { model: 'GPT-5.2', Python: 63.9, Rust: 63.9, Go: 66.7, JavaScript: 65.3, C: 48.6, 'C++': 63.9, R: 27.8 },
+    { model: 'GPT-5 mini', Python: 72.2, Rust: 61.1, Go: 29.2, JavaScript: 73.6, C: 50.0, 'C++': 66.7, R: 23.6 },
+    { model: 'GPT-5 nano', Python: 16.7, Rust: 0.0, Go: 5.6, JavaScript: 8.3, C: 0.0, 'C++': 2.8, R: 0.0 },
+    { model: 'Claude Opus 4.5', Python: 44.4, Rust: 62.5, Go: 63.9, JavaScript: 62.5, C: 47.2, 'C++': 50.0, R: 44.4 },
+    { model: 'Claude Sonnet 4.5', Python: 33.3, Rust: 19.4, Go: 54.2, JavaScript: 45.8, C: 38.9, 'C++': 40.3, R: 33.3 },
+    { model: 'Claude Haiku 4.5', Python: 4.2, Rust: 13.9, Go: 29.2, JavaScript: 25.0, C: 25.0, 'C++': 20.8, R: 4.2 },
+    { model: 'Gemini 3 Pro', Python: 87.5, Rust: 76.4, Go: 66.7, JavaScript: 90.3, C: 47.2, 'C++': 66.7, R: 58.3 },
+    { model: 'Gemini 3 Flash', Python: 44.4, Rust: 69.4, Go: 65.3, JavaScript: 77.8, C: 62.5, 'C++': 48.6, R: 44.4 }
+  ]}
+  height={450}
+  title="Model Performance Across Languages"
+  description="Accuracy percentage for each model-language combination. Brighter shades indicate higher performance."
+/>
+
+The heatmap reveals clear patterns in model-language affinities:
+
+- **JavaScript and Python form a "safe zone"** with generally higher scores across the board (brighter colors concentrated in these columns).
+- **C is the great equalizer**: even top models struggle, with scores clustering in the 47-62% range regardless of model size.
+- **GPT-5 mini has a notable blind spot in Go** (29.2%), performing worse than even Claude Haiku in this language. This anomaly warrants further investigation.
+- **Claude models show remarkable consistency** across languages, with less variance between their best and worst languages compared to the Gemini models.
+- **Gemini 3 Flash outperforms Gemini 3 Pro in C** (62.5% vs 47.2%), one of the few cases where a smaller model significantly beats its larger sibling.
+
+### Variance and failure analysis
+
+Do the averages hide brittleness? This chart shows the standard deviation across all runs for each model.
+
+<BarChart
+  data={[
+  {
+    model: "GPT-5.2",
+    mean: 57.1,
+    stdDev: 14.3,
+  },
+  {
+    model: "GPT-5 Mini",
+    mean: 53.8,
+    stdDev: 20.3,
+  },
+  {
+    model: "GPT-5 Nano",
+    mean: 4.8,
+    stdDev: 6.2,
+  },
+  {
+    model: "Claude Sonnet",
+    mean: 37.9,
+    stdDev: 10.9,
+  },
+  {
+    model: "Claude Opus",
+    mean: 53.6,
+    stdDev: 9.0,
+  },
+  {
+    model: "Claude Haiku",
+    mean: 17.5,
+    stdDev: 10.2,
+  },
+  {
+    model: "Gemini 3 Pro",
+    mean: 67.7,
+    stdDev: 17.8,
+  },
+  {
+    model: "Gemini 3 Flash",
+    mean: 58.9,
+    stdDev: 13.2,
+  },
+].sort((a, b) => b.mean - a.mean)}
+  xKey="model"
+  xAxisAngle={-45}
+  yKeys={[
+    {
+      key: "mean",
+      label: "Mean Accuracy",
+      errorKey: "stdDev",
+    },
+  ]}
+  title="Model Accuracy Variance Across All Conditions"
+  description="Mean accuracy across all languages, problems, and passes. Error bars show ±1 standard deviation."
+  valueFormatter="percent"
+  showLegend={false}
+  showGrid={true}
+/>
+
+The variance analysis reveals important insights about model reliability:
+
+- **Claude Opus shows the lowest variance** (±9.0%) among competitive models, making it the most predictable performer despite not having the highest mean accuracy.
+- **GPT-5 mini is the most volatile** mid-tier model at ±20.3%, meaning its performance swings wildly between excellent and poor depending on the problem and language.
+- **Gemini 3 Pro's high mean comes with high variance** (±17.8%), suggesting its top scores are offset by occasional significant failures.
+- **GPT-5 nano's low variance is misleading**&mdash;it simply fails consistently, with a tiny standard deviation around a near-zero mean.
+
+For production use cases where reliability matters, Claude Opus's combination of decent accuracy (53.6%) and low variance makes it an interesting choice over higher-scoring but less predictable alternatives &mdash; this obviously comes at a significant cost.
+
+## Discussion
+
+### The multi-language challenge
+
+One of the most interesting aspects of this project is the **multi-language requirement**. Compiled languages like **Rust** and **C++** definitely added complexity: models must not only solve the logic but also produce code that passes the compiler: no missing semicolons, no type mismatches, no forgotten imports. This greatly increased the effort to improve stability to a point worth evaluating.
+
+### Security considerations
+
+Executing LLM-generated code locally is inherently risky. For this experiment, I accepted the risk given the controlled scope. Sandboxed execution with timeouts and no network access. Needless to say that any production implementation would require proper isolation.
+
+### Temperature sensitivity
+
+Temperature significantly affected performance, particularly for Claude models, e.g. Opus performed notably better with temperature left at the default (unspecified) rather than explicitly set to 0. In general, it seems like the better option is to leave temperature unspecified and rather tweak reasoning parameters instead.
+
+### The consistency struggle
+
+Achieving consistent responses required far more effort than anticipated. This created a tension: the challenge was testing autonomous LLM problem-solving, so I had to carefully calibrate how much "help" to provide via prompting while keeping the evaluation fair. For this reason, I specifically didn't want to use structured outputs. 
+
+The system prompt went through several iterations to achieve consistent output formatting across all languages. Despite this, Rust, JavaScript, and C++ still required language-specific instructions. Models with chain-of-thought responses struggled most with consistency: Gemini 3 Pro would sometimes output verbose explanation chains instead of the requested format, sometimes ending up only partially answering the problem.
+
+### Reasoning effort
+
+Does allocating more "thinking tokens" improve performance? The `reasoning_effort` parameter controls how many tokens models can use for internal reasoning.
+
+| reasoning_effort | budget_tokens |
+|------------------|---------------|
+| none | 0 |
+| low | 1024 |
+| medium | 2048 |
+| high | 4096 |
+
+Note: Claude Sonnet 4.5 and Claude Opus 4.5 do not support `reasoning_effort` set to `none`.
+
+<BarChart
+  data={[
+    { model: "GPT-5.2", reasoning: 'none', accuracy: 72.2 },
+    { model: "Claude Opus 4.5", reasoning: 'none', accuracy: 0 },
+    { model: "Claude Sonnet 4.5", reasoning: 'none', accuracy: 0 },
+    { model: "Gemini 3 Pro", reasoning: 'none', accuracy: 84.7 },
+    { model: "GPT-5.2", reasoning: 'low', accuracy: 81.9 },
+    { model: "Claude Opus 4.5", reasoning: 'low', accuracy: 61.1 },
+    { model: "Claude Sonnet 4.5", reasoning: 'low', accuracy: 31.9 },
+    { model: "Gemini 3 Pro", reasoning: 'low', accuracy: 83.3 },
+    { model: "GPT-5.2", reasoning: 'medium', accuracy: 77.8 },
+    { model: "Claude Opus 4.5", reasoning: 'medium', accuracy: 61.1 },
+    { model: "Claude Sonnet 4.5", reasoning: 'medium', accuracy: 41.7 },
+    { model: "Gemini 3 Pro", reasoning: 'medium', accuracy: 79.2 },
+    { model: "GPT-5.2", reasoning: 'high', accuracy: 56.9 },
+    { model: "Claude Opus 4.5", reasoning: 'high', accuracy: 70.8 },
+    { model: "Claude Sonnet 4.5", reasoning: 'high', accuracy: 38.9 },
+    { model: "Gemini 3 Pro", reasoning: 'high', accuracy: 73.6 },
+  ]}
+  xKey="reasoning"
+  groupBy="model"
+  valueKey="accuracy"
+  title="Impact of reasoning effort on accuracy"
+  description="Mean accuracy averaged across all problems and selected languages (Python, Rust, C++)."
+  valueFormatter="percent"
+  showGrid={false}
+  showLegend={true}
+  className="mt-6"
+/>
+
+The results challenge the assumption that more thinking always helps:
+
+- **GPT-5.2 performs best at "low" reasoning** (81.9%) and actually degrades significantly at "high" (56.9%). Over-thinking appears counterproductive.
+- **Claude Opus benefits from more reasoning**, improving from 61.1% at low to 70.8% at high. The only model showing clear gains from increased reasoning budget.
+- **Gemini 3 Pro peaks at "none"** (84.7%) and steadily declines with more reasoning tokens. This may relate to its tendency toward verbose chain-of-thought outputs interfering with clean code generation.
+- **Claude Sonnet shows inconsistent behavior**, peaking at "medium" (41.7%) before dropping at "high" (38.9%).
+
+The takeaway: reasoning effort is not a simple "more is better" parameter. Optimal settings vary by model and likely by task type. For straightforward coding challenges, minimal reasoning often suffices. Higher reasoning efforts, especially for larger and more reasoning-oriented models, mostly causes models to produce lengthy chain-of-thought outputs, interfering with clean code generation, eventually leading to partially answered problems, response parsing errors or code that cannot be executed or compiled.
+Needless to say, implementing structured outputs may solve this issue and improve overall performance, however this was not the goal for this experiment and therefore remains to be explored further.
+
+### Other observations
+
+Several additional patterns emerged during the evaluation:
+
+- **External library dependencies**: Models frequently tried to import external libraries despite explicit instructions to use only the standard library. This required prompt engineering to address.
+- **Output format inconsistency**: Gemini 3 Pro would sometimes output unwanted JSON structures with "part" and "solution" keys instead of the requested plain format, even with temperature at 0.
+- **Run-to-run variance**: Overall accuracy varied by approximately ±5% between runs. Gemini models stabilized significantly after prompt tweaks, while Claude models were more sensitive to temperature settings.
+
+## Conclusion
+
+*Advent of Slop* reveals that current LLMs can autonomously solve simple programming challenges, but not reliably. The best performer, Gemini 3 Pro, achieves only 70.4% accuracy, and that comes with significant variance.
+
+Key findings:
+
+1. **Model size isn't everything.** Mid-tier models (GPT-5 mini, Gemini 3 Flash) often approach or match their larger counterparts at a fraction of the cost.
+2. **Language matters.** Python and JavaScript see much higher success rates than C, R, or Rust.
+3. **Consistency beats peak performance.** Claude Opus's low variance may be more valuable than Gemini 3 Pro's higher but erratic scores, depending on use case.
+4. **Reasoning effort requires tuning.** More thinking tokens don't automatically improve results, sometimes the opposite.
+5. **Prompt engineering remains essential.** Significant effort went into achieving consistent, parseable outputs across models and languages.
+
+The experiment also surfaced the fundamental tension in evaluating coding ability of LLMs: how much help is fair? Adjusting prompts for better consistency feels a bit like cheating, but leaving models to fail on formatting seems to miss the point. There's no clean answer.
+
+Finally, always be skeptical and take this with a grain of salt, it was a fun and simple experiment &mdash; no real conclusion can be taken.
+For the curious, the full code of the project available at [divin1/advent-of-slop](https://github.com/divin1/advent-of-slop).
+
+---
