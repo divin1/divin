@@ -16,6 +16,7 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  ErrorBar,
 } from "recharts";
 import Chart from "./Chart";
 
@@ -32,9 +33,17 @@ interface BaseChartProps {
   className?: string;
 }
 
+interface YKeyConfig {
+  key: string;
+  label: string;
+  errorKey?: string;
+  minKey?: string;
+  maxKey?: string;
+}
+
 interface XYChartProps extends BaseChartProps {
   xKey: string;
-  yKeys: string[] | Array<{ key: string; label: string }>;
+  yKeys: string[] | Array<YKeyConfig>;
   colors?: string[];
   valueFormatter?: FormatterKey | ((value: number) => string);
   showGrid?: boolean;
@@ -85,8 +94,11 @@ function formatValue(
 
 // Custom tooltip styling
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const CustomTooltip = ({ active, payload, label, valueFormatter }: any) => {
+const CustomTooltip = ({ active, payload, label, valueFormatter, statsKeys }: any) => {
   if (active && payload && payload.length) {
+    // Get the original data item to access additional stats
+    const dataItem = payload[0]?.payload;
+
     return (
       <div
         style={{
@@ -147,6 +159,33 @@ const CustomTooltip = ({ active, payload, label, valueFormatter }: any) => {
             </div>
           ))
         }
+        {statsKeys && dataItem && (
+          <div
+            style={{
+              marginTop: "8px",
+              paddingTop: "8px",
+              borderTop: "1px solid rgba(255, 255, 255, 0.1)",
+              fontSize: "0.8rem",
+              color: "rgba(255, 255, 255, 0.6)",
+            }}
+          >
+            {statsKeys.minKey && dataItem[statsKeys.minKey] !== undefined && (
+              <div style={{ margin: "2px 0" }}>
+                Min: {formatValue(dataItem[statsKeys.minKey], valueFormatter)}
+              </div>
+            )}
+            {statsKeys.maxKey && dataItem[statsKeys.maxKey] !== undefined && (
+              <div style={{ margin: "2px 0" }}>
+                Max: {formatValue(dataItem[statsKeys.maxKey], valueFormatter)}
+              </div>
+            )}
+            {statsKeys.errorKey && dataItem[statsKeys.errorKey] !== undefined && (
+              <div style={{ margin: "2px 0" }}>
+                Std Dev: ±{formatValue(dataItem[statsKeys.errorKey], valueFormatter)}
+              </div>
+            )}
+          </div>
+        )}
       </div>
     );
   }
@@ -333,7 +372,18 @@ export function BarChart({
   const normalizedYKeys =
     Array.isArray(yKeys) && typeof yKeys[0] === "string"
       ? (yKeys as string[]).map((key) => ({ key, label: key }))
-      : (yKeys as Array<{ key: string; label: string }>);
+      : (yKeys as Array<YKeyConfig>);
+
+  // Extract statsKeys from first yKey config for tooltip
+  const firstYKey = normalizedYKeys[0];
+  const statsKeys =
+    firstYKey?.errorKey || firstYKey?.minKey || firstYKey?.maxKey
+      ? {
+          errorKey: firstYKey.errorKey,
+          minKey: firstYKey.minKey,
+          maxKey: firstYKey.maxKey,
+        }
+      : undefined;
 
   // For single yKey charts, use Cell to color each bar differently
   const useCellColors = normalizedYKeys.length === 1;
@@ -370,7 +420,7 @@ export function BarChart({
             domain={yDomain}
           />
           <Tooltip
-            content={<CustomTooltip valueFormatter={valueFormatter} />}
+            content={<CustomTooltip valueFormatter={valueFormatter} statsKeys={statsKeys} />}
             cursor={{ fill: "rgba(99, 102, 241, 0.08)", radius: 4 }}
           />
           {showLegend && (
@@ -398,6 +448,14 @@ export function BarChart({
             >
               {useCellColors &&
                 data.map((_, i) => <Cell key={`cell-${i}`} fill={colors[i % colors.length]} />)}
+              {item.errorKey && (
+                <ErrorBar
+                  dataKey={item.errorKey}
+                  width={4}
+                  strokeWidth={2}
+                  stroke="rgba(255, 255, 255, 0.6)"
+                />
+              )}
             </Bar>
           ))}
         </RechartsBar>
