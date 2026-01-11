@@ -85,6 +85,7 @@ The project uses a custom orchestrator built in Python (`src/evaluator.py`) and 
   valueFormatter="percent"
   showGrid={false}
   showLegend={false}
+  yDomain={[0, 100]}
   className="mt-6"
 />
 
@@ -121,6 +122,7 @@ This breakdown observes which models are generalists and which specialize in par
   valueFormatter="percent"
   showGrid={false}
   showLegend={false}
+  yDomain={[0, 100]}
   className="mt-6"
 />
 </Tab>
@@ -150,6 +152,7 @@ This breakdown observes which models are generalists and which specialize in par
   valueFormatter="percent"
   showGrid={false}
   showLegend={false}
+  yDomain={[0, 100]}
   className="mt-6"
 />
 </Tab>
@@ -179,6 +182,7 @@ This breakdown observes which models are generalists and which specialize in par
   valueFormatter="percent"
   showGrid={false}
   showLegend={false}
+  yDomain={[0, 100]}
   className="mt-6"
 />
 </Tab>
@@ -208,6 +212,7 @@ This breakdown observes which models are generalists and which specialize in par
   valueFormatter="percent"
   showGrid={false}
   showLegend={false}
+  yDomain={[0, 100]}
   className="mt-6"
 />
 </Tab>
@@ -237,6 +242,7 @@ This breakdown observes which models are generalists and which specialize in par
   valueFormatter="percent"
   showGrid={false}
   showLegend={false}
+  yDomain={[0, 100]}
   className="mt-6"
 />
 </Tab>
@@ -266,6 +272,7 @@ This breakdown observes which models are generalists and which specialize in par
   valueFormatter="percent"
   showGrid={false}
   showLegend={false}
+  yDomain={[0, 100]}
   className="mt-6"
 />
 </Tab>
@@ -295,6 +302,7 @@ This breakdown observes which models are generalists and which specialize in par
   valueFormatter="percent"
   showGrid={false}
   showLegend={false}
+  yDomain={[0, 100]}
   className="mt-6"
 />
 </Tab>
@@ -391,10 +399,11 @@ Do the averages hide brittleness? This chart shows the standard deviation across
     },
   ]}
   title="Model Accuracy Variance Across All Conditions"
-  description="Mean accuracy across all languages, problems, and passes. Error bars show ±1 standard deviation."
+  description="Mean accuracy across all languages, problems, and passes. Error bars show ±1 standard deviation across all evaluation outcomes."
   valueFormatter="percent"
   showLegend={false}
   showGrid={true}
+  yDomain={[0, 100]}
 />
 
 The variance analysis reveals important insights about model reliability:
@@ -466,6 +475,7 @@ Note: Claude Sonnet 4.5 and Claude Opus 4.5 do not support `reasoning_effort` se
   valueFormatter="percent"
   showGrid={false}
   showLegend={true}
+  yDomain={[0, 100]}
   className="mt-6"
 />
 

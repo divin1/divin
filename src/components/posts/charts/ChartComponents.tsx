@@ -42,6 +42,7 @@ interface XYChartProps extends BaseChartProps {
   groupBy?: string;
   valueKey?: string;
   xAxisAngle?: number;
+  yDomain?: [number, number];
 }
 
 interface PieChartProps extends BaseChartProps {
@@ -239,6 +240,7 @@ export function BarChart({
   groupBy,
   valueKey,
   xAxisAngle = 0,
+  yDomain,
 }: XYChartProps) {
   // Handle grouped bar chart
   if (groupBy && valueKey) {
@@ -290,6 +292,7 @@ export function BarChart({
               tickLine={false}
               axisLine={false}
               tickFormatter={(v) => formatValue(v, valueFormatter)}
+              domain={yDomain}
             />
             <Tooltip
               content={<CustomTooltip valueFormatter={valueFormatter} />}
@@ -364,6 +367,7 @@ export function BarChart({
             tickLine={false}
             axisLine={false}
             tickFormatter={(v) => formatValue(v, valueFormatter)}
+            domain={yDomain}
           />
           <Tooltip
             content={<CustomTooltip valueFormatter={valueFormatter} />}
