@@ -57,10 +57,9 @@ export default function Heatmap({
             legendOffset: -72,
           }}
           colors={{
-            type: "sequential",
+            type: "quantize",
             colors: ["#1a1025", "#3d1f4a", "#6b2a6e", "#9c3585", "#c94199", "#e94eaa"],
-            minValue: 0,
-            maxValue: 100,
+            steps: 6,
           }}
           emptyColor="rgba(255, 255, 255, 0.05)"
           borderWidth={2}

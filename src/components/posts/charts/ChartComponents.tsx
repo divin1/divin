@@ -369,7 +369,7 @@ export function BarChart({
   }
 
   // Normalize yKeys to always be array of objects
-  const normalizedYKeys =
+  const normalizedYKeys: YKeyConfig[] =
     Array.isArray(yKeys) && typeof yKeys[0] === "string"
       ? (yKeys as string[]).map((key) => ({ key, label: key }))
       : (yKeys as Array<YKeyConfig>);
@@ -560,7 +560,7 @@ export function PieChart({
             paddingAngle={2}
             dataKey={dataKey}
             nameKey={nameKey}
-            label={showLabels ? (entry) => entry[nameKey] : false}
+            label={showLabels ? (entry) => String((entry as unknown as ChartData)[nameKey]) : false}
             labelLine={showLabels}
           >
             {data.map((entry, index) => (
@@ -587,8 +587,11 @@ interface BarListItem {
   value: number;
 }
 
-interface BarListProps extends BaseChartProps {
+interface BarListProps {
   data: BarListItem[];
+  title?: string;
+  description?: string;
+  className?: string;
   valueFormatter?: FormatterKey | ((value: number) => string);
   color?: string;
 }
