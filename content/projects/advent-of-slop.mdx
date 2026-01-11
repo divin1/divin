@@ -352,41 +352,57 @@ Do the averages hide brittleness? This chart shows the standard deviation across
     model: "GPT-5.2",
     mean: 57.1,
     stdDev: 14.3,
+    min: 27.8,
+    max: 66.7,
   },
   {
     model: "GPT-5 Mini",
     mean: 53.8,
     stdDev: 20.3,
+    min: 23.6,
+    max: 73.6,
   },
   {
     model: "GPT-5 Nano",
     mean: 4.8,
     stdDev: 6.2,
+    min: 0,
+    max: 16.7,
   },
   {
     model: "Claude Sonnet",
     mean: 37.9,
     stdDev: 10.9,
+    min: 19.4,
+    max: 54.2,
   },
   {
     model: "Claude Opus",
     mean: 53.6,
     stdDev: 9.0,
+    min: 44.4,
+    max: 63.9,
   },
   {
     model: "Claude Haiku",
     mean: 17.5,
     stdDev: 10.2,
+    min: 4.2,
+    max: 29.2,
   },
   {
     model: "Gemini 3 Pro",
     mean: 67.7,
     stdDev: 17.8,
+    min: 47.2,
+    max: 90.3,
   },
   {
     model: "Gemini 3 Flash",
     mean: 58.9,
     stdDev: 13.2,
+    min: 44.4,
+    max: 77.8,
   },
 ].sort((a, b) => b.mean - a.mean)}
   xKey="model"
@@ -396,6 +412,8 @@ Do the averages hide brittleness? This chart shows the standard deviation across
       key: "mean",
       label: "Mean Accuracy",
       errorKey: "stdDev",
+      minKey: "min",
+      maxKey: "max",
     },
   ]}
   title="Model Accuracy Variance Across All Conditions"
@@ -486,7 +504,9 @@ The results challenge the assumption that more thinking always helps:
 - **Gemini 3 Pro peaks at "none"** (84.7%) and steadily declines with more reasoning tokens. This may relate to its tendency toward verbose chain-of-thought outputs interfering with clean code generation.
 - **Claude Sonnet shows inconsistent behavior**, peaking at "medium" (41.7%) before dropping at "high" (38.9%).
 
-The takeaway: reasoning effort is not a simple "more is better" parameter. Optimal settings vary by model and likely by task type. For straightforward coding challenges, minimal reasoning often suffices. Higher reasoning efforts, especially for larger and more reasoning-oriented models, mostly causes models to produce lengthy chain-of-thought outputs, interfering with clean code generation, eventually leading to partially answered problems, response parsing errors or code that cannot be executed or compiled.
+The takeaway: reasoning effort is not a simple "more is better" parameter. Optimal settings vary by model and likely by task type. For straightforward coding challenges, minimal reasoning often suffices. Higher reasoning efforts, especially for larger and more reasoning-oriented models, mostly causes models to produce lengthy chain-of-thought outputs, interfering with clean code generation, eventually leading to partially answered problems, response parsing errors or code that cannot be executed or compiled. Smaller models simply answer as requested.
+This may suggest larger, reasoning-oriented models, are specifically fine-tuned to answer using chain-of-thought responses.
+
 Needless to say, implementing structured outputs may solve this issue and improve overall performance, however this was not the goal for this experiment and therefore remains to be explored further.
 
 ### Other observations
@@ -503,7 +523,7 @@ Several additional patterns emerged during the evaluation:
 
 Key findings:
 
-1. **Model size isn't everything.** Mid-tier models (GPT-5 mini, Gemini 3 Flash) often approach or match their larger counterparts at a fraction of the cost.
+1. **Model size isn't everything.** Mid-tier models (GPT-5 mini, Gemini 3 Flash) often approach or match their larger counterparts in one-shot tasks.
 2. **Language matters.** Python and JavaScript see much higher success rates than C, R, or Rust.
 3. **Consistency beats peak performance.** Claude Opus's low variance may be more valuable than Gemini 3 Pro's higher but erratic scores, depending on use case.
 4. **Reasoning effort requires tuning.** More thinking tokens don't automatically improve results, sometimes the opposite.
