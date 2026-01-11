@@ -57,7 +57,7 @@ export default async function Post({ post, backTo, backToText }: PostProps) {
           {backToText}
         </Link>
         <ChevronRight className="text-text-variant/50 size-3" />
-        <span className="text-foreground truncate max-w-[200px] sm:max-w-[300px]">
+        <span className="text-foreground max-w-[200px] truncate sm:max-w-[300px]">
           {post.metadata.title}
         </span>
       </nav>
