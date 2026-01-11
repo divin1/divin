@@ -17,6 +17,13 @@ function Header() {
   const [isTop, setIsTop] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+  const [prevPathname, setPrevPathname] = useState(pathname);
+
+  // Close menu on route change
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname);
+    setIsOpen(false);
+  }
 
   useEffect(() => {
     function onScroll() {
@@ -28,11 +35,6 @@ function Header() {
       window.removeEventListener("scroll", onScroll);
     };
   }, []);
-
-  // Close menu on route change
-  useEffect(() => {
-    setIsOpen(false);
-  }, [pathname]);
 
   // Close menu on escape key
   useEffect(() => {
@@ -156,7 +158,9 @@ function Header() {
                     >
                       <Icon
                         className={`size-5 transition-colors duration-200 ${
-                          isActive ? "fill-white/30" : "fill-foreground/20 group-hover:fill-white/20"
+                          isActive
+                            ? "fill-white/30"
+                            : "fill-foreground/20 group-hover:fill-white/20"
                         }`}
                       />
                       <span className="text-base font-medium">{link.label}</span>
