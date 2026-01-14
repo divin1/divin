@@ -1,4 +1,4 @@
-.PHONY: format lint typecheck
+.PHONY: format lint
 
 format:
 	npm run format
