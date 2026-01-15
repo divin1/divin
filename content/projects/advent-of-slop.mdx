@@ -500,14 +500,14 @@ Note: Claude Sonnet 4.5 and Claude Opus 4.5 do not support `reasoning_effort` se
 The results challenge the assumption that more thinking always helps:
 
 - **GPT-5.2 performs best at "low" reasoning** (81.9%) and actually degrades significantly at "high" (56.9%). Over-thinking appears counterproductive.
-- **Claude Opus benefits from more reasoning**, improving from 61.1% at low to 70.8% at high. The only model showing clear gains from increased reasoning budget.
+- **Claude Opus 4.5 benefits from more reasoning**, improving from 61.1% at low to 70.8% at high. The only model showing clear gains from increased reasoning budget.
 - **Gemini 3 Pro peaks at "none"** (84.7%) and steadily declines with more reasoning tokens. This may relate to its tendency toward verbose chain-of-thought outputs interfering with clean code generation.
-- **Claude Sonnet shows inconsistent behavior**, peaking at "medium" (41.7%) before dropping at "high" (38.9%).
+- **Claude Sonnet 4.5 shows inconsistent behavior**, peaking at "medium" (41.7%) before dropping at "high" (38.9%).
 
 The takeaway: reasoning effort is not a simple "more is better" parameter. Optimal settings vary by model and likely by task type. For straightforward coding challenges, minimal reasoning often suffices. Higher reasoning efforts, especially for larger and more reasoning-oriented models, mostly causes models to produce lengthy chain-of-thought outputs, interfering with clean code generation, eventually leading to partially answered problems, response parsing errors or code that cannot be executed or compiled. Smaller models simply answer as requested.
 This may suggest larger, reasoning-oriented models, are specifically fine-tuned to answer using chain-of-thought responses.
 
-Needless to say, implementing structured outputs may solve this issue and improve overall performance, however this was not the goal for this experiment and therefore remains to be explored further.
+Needless to say, that implementing structured outputs may solve this issue and improve overall performance, however this was not the goal for this experiment and it therefore remains to be explored further.
 
 ### Other observations
 
@@ -531,7 +531,7 @@ Key findings:
 
 The experiment also surfaced the fundamental tension in evaluating coding ability of LLMs: how much help is fair? Adjusting prompts for better consistency feels a bit like cheating, but leaving models to fail on formatting seems to miss the point. There's no clean answer.
 
-Finally, always be skeptical and take this with a grain of salt, it was a fun and simple experiment &mdash; no real conclusion can be taken.
-For the curious, the full code of the project available at [divin1/advent-of-slop](https://github.com/divin1/advent-of-slop).
+Finally, always be skeptical and take this with a grain of salt, it was a fun and simple experiment but no real conclusion can be taken.
+For the curious, the code of the project is available at [divin1/advent-of-slop](https://github.com/divin1/advent-of-slop).
 
 ---
