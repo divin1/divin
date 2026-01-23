@@ -22,11 +22,15 @@ export function getSlugs(dir: string): string[] {
  * @param slug Post path name without `.mdx` suffix.
  * @returns `PostMetadata`.
  */
-export const getPostMetadata = (dir: string, slug: string): PostMetadata => {
+export const getPostMetadata = (dir: string, slug: string): PostMetadata | null => {
   const path = join(dir, `${slug}.mdx`);
-  const rawMdx = fs.readFileSync(path, "utf8");
-  const frontmatter = matter(rawMdx).data as PostMetadata;
-  return frontmatter;
+  try {
+    const rawMdx = fs.readFileSync(path, "utf8");
+    const frontmatter = matter(rawMdx).data as PostMetadata;
+    return frontmatter;
+  } catch {
+    return null;
+  }
 };
 
 /**
@@ -35,27 +39,31 @@ export const getPostMetadata = (dir: string, slug: string): PostMetadata => {
  * @param slug
  * @returns a promise that resolves to a CompiledPost object
  */
-export const getPost = async (dir: string, slug: string): Promise<CompiledPost> => {
+export const getPost = async (dir: string, slug: string): Promise<CompiledPost | null> => {
   const path = join(dir, `${slug}.mdx`);
-  const source = fs.readFileSync(path, "utf-8");
-  const { data, content } = matter(source);
+  try {
+    const source = fs.readFileSync(path, "utf-8");
+    const { data, content } = matter(source);
 
-  return {
-    slug,
-    content,
-    readTime: getReadTime(content),
-    metadata: {
-      date: data.date,
-      updated: data.updated,
-      draft: data.draft,
-      hidden: data.hidden,
-      title: data.title,
-      excerpt: data.excerpt,
-      tags: data.tags,
-      keywords: data.keywords,
-      cover: data.cover,
-    },
-  };
+    return {
+      slug,
+      content,
+      readTime: getReadTime(content),
+      metadata: {
+        date: data.date,
+        updated: data.updated,
+        draft: data.draft,
+        hidden: data.hidden,
+        title: data.title,
+        excerpt: data.excerpt,
+        tags: data.tags,
+        keywords: data.keywords,
+        cover: data.cover,
+      },
+    };
+  } catch {
+    return null;
+  }
 };
 
 /**
@@ -65,11 +73,12 @@ export const getPost = async (dir: string, slug: string): Promise<CompiledPost> 
  */
 export async function getPosts(dir: string): Promise<CompiledPost[]> {
   const slugs = getSlugs(dir);
-  const postsPromises: Promise<CompiledPost>[] = [];
+  const postsPromises: Promise<CompiledPost | null>[] = [];
   slugs.forEach((slug: string) => {
     postsPromises.push(getPost(dir, slug));
   });
-  const posts: CompiledPost[] = await Promise.all(postsPromises);
+  const results = await Promise.all(postsPromises);
+  const posts = results.filter((post): post is CompiledPost => post !== null);
   posts.sort((a, b) => new Date(b.metadata.date).valueOf() - new Date(a.metadata.date).valueOf());
   return posts;
 }

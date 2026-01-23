@@ -21,7 +21,7 @@ export function mdxToText(mdxContent: string): string {
       // Horizontal rules
       .replace(/[\*\-\_]{3, }\n/g, "")
       // New lines
-      .replace(/\n+/g, "s")
+      .replace(/\n+/g, " ")
   );
 }
 

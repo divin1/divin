@@ -10,6 +10,7 @@ export const contentType = "image/png";
 export default async function Image({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const post = await getPost(THOUGHTS_PATH, slug);
+  if (!post) return new Response("Not found", { status: 404 });
 
   return generateOgImage({
     title: post.metadata.title,

@@ -2,10 +2,12 @@ import { getSlugs, getPost, getPostMetadata, THOUGHTS_PATH } from "@/lib/api";
 import Post from "@/components/Post";
 import { APP_CONFIG } from "@/lib/constants";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const post = await getPost(THOUGHTS_PATH, slug);
+  if (!post) notFound();
 
   return <Post post={post} backTo="/thoughts" backToText="All thoughts" />;
 }
@@ -25,6 +27,7 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const post = await getPostMetadata(THOUGHTS_PATH, slug);
+  if (!post) return {};
 
   return {
     title: post.title,
