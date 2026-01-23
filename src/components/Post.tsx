@@ -4,7 +4,6 @@ import { ChevronRight, Home } from "lucide-react";
 import { CompiledPost } from "@/lib/types";
 import { renderMdx } from "@/lib/mdx";
 import Gallery from "@/components/posts/Gallery";
-import GpxMap from "@/components/posts/GpxMap";
 import CustomLink from "@/components/posts/CustomLink";
 import {
   LineChart,
@@ -19,7 +18,6 @@ import Heatmap from "@/components/posts/charts/Heatmap";
 // load components to pass to MDX
 const components = {
   Gallery,
-  GpxMap,
   LineChart,
   BarChart,
   AreaChart,
