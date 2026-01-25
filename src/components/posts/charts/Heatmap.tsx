@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { ResponsiveHeatMap } from "@nivo/heatmap";
 import Chart from "./Chart";
 
@@ -20,6 +20,15 @@ export default function Heatmap({
   description,
   className,
 }: HeatmapProps) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   // Transform CSV-like data to Nivo format - memoized to prevent recalculation
   const nivoData = useMemo(() => {
     return data.map((row) => ({
@@ -33,12 +42,16 @@ export default function Heatmap({
     }));
   }, [data]);
 
+  const margins = isMobile
+    ? { top: 60, right: 20, bottom: 60, left: 80 }
+    : { top: 60, right: 90, bottom: 60, left: 120 };
+
   return (
     <Chart title={title} description={description} className={className}>
       <div style={{ height: `${height}px` }} className="[&_*]:!transition-none">
         <ResponsiveHeatMap
           data={nivoData}
-          margin={{ top: 60, right: 90, bottom: 60, left: 120 }}
+          margin={margins}
           valueFormat=">-.1f"
           motionConfig="gentle"
           axisTop={{

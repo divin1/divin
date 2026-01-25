@@ -34,6 +34,8 @@ export default function Chart({ children, title, description, className = "" }: 
           padding: 2rem;
           backdrop-filter: blur(8px);
           animation: fadeInUp 0.6s ease-out;
+          overflow: hidden;
+          max-width: 100%;
         }
 
         @keyframes fadeInUp {
@@ -75,6 +77,8 @@ export default function Chart({ children, title, description, className = "" }: 
         .chart-content {
           position: relative;
           min-height: 320px;
+          overflow: hidden;
+          width: 100%;
         }
 
         @media (max-width: 768px) {
