@@ -1,6 +1,4 @@
-import Link from "next/link";
 import ImageWrapper from "@/components/posts/ImageWrapper";
-import { ChevronRight, Home } from "lucide-react";
 import { CompiledPost } from "@/lib/types";
 import { renderMdx } from "@/lib/mdx";
 import Gallery from "@/components/posts/Gallery";
@@ -14,6 +12,7 @@ import {
 } from "@/components/posts/charts/ChartComponents";
 import { Tabs, Tab } from "@/components/posts/Tabs";
 import Heatmap from "@/components/posts/charts/Heatmap";
+import ShareButton from "@/components/ShareButton";
 
 // load components to pass to MDX
 const components = {
@@ -37,39 +36,49 @@ type PostProps = {
 };
 
 export default async function Post({ post, backTo, backToText }: PostProps) {
+  const category = backToText.replace("All ", "");
+
   return (
-    <article className="my-20 flex flex-col">
-      {/* Breadcrumbs */}
-      <nav className="mb-6 flex items-center gap-2 text-sm">
-        <Link
-          href="/"
-          className="text-text-variant hover:text-primary flex items-center transition-colors"
-        >
-          <Home className="size-4" />
-        </Link>
-        <ChevronRight className="text-text-variant/50 size-3" />
-        <Link
-          href={backTo}
-          className="text-text-variant hover:text-primary capitalize transition-colors"
-        >
-          {backToText}
-        </Link>
-        <ChevronRight className="text-text-variant/50 size-3" />
-        <span className="text-foreground max-w-[200px] truncate sm:max-w-[300px]">
+    <article className="my-16 flex flex-col sm:my-20">
+      {/* Header Section */}
+      <header className="mb-12 text-center">
+        {/* Date and Category */}
+        <div className="text-text-variant mb-6 flex items-center justify-center gap-3 text-sm">
+          <time dateTime={post.metadata.date}>
+            {new Date(post.metadata.date).toLocaleDateString("en-US", {
+              month: "long",
+              day: "numeric",
+              year: "numeric",
+            })}
+          </time>
+          <span className="text-text-variant/50">·</span>
+          <span className="text-primary capitalize">{category}</span>
+        </div>
+
+        {/* Title */}
+        <h1 className="text-foreground mx-auto max-w-4xl text-3xl leading-tight font-semibold tracking-tight sm:text-4xl md:text-5xl">
           {post.metadata.title}
-        </span>
-      </nav>
+        </h1>
 
+        {/* Excerpt / Subtitle */}
+        {post.metadata.excerpt && (
+          <p className="text-text-variant mx-auto mt-6 max-w-2xl text-lg">
+            {post.metadata.excerpt}
+          </p>
+        )}
+      </header>
+
+      {/* Toolbar */}
+      <div className="border-border mx-auto mb-10 flex w-full max-w-prose items-center justify-between border-y py-4">
+        <div className="text-text-variant flex items-center gap-2 text-sm">
+          <span>{post.readTime} min read</span>
+        </div>
+        <ShareButton />
+      </div>
+
+      {/* Content */}
       <div className="mx-auto max-w-prose">
-        <h1 className="text-primary text-4xl font-bold">{post.metadata.title}</h1>
-        <span className="text-text-variant text-base">
-          {new Date(post.metadata.date).toLocaleDateString("en-US", {
-            month: "long",
-            year: "numeric",
-          })}
-        </span>
-
-        <div className="prose prose-invert prose-stone prose-h1:text-primary prose-p:text-lg prose-a:text-primary prose-a:hover:text-primary-accent prose-img:rounded-md prose-img:shadow-md mt-5 max-w-none overflow-x-hidden">
+        <div className="prose prose-invert prose-stone prose-headings:text-foreground prose-p:text-text prose-p:text-lg prose-a:text-primary hover:prose-a:text-primary-accent prose-img:rounded-md prose-img:shadow-md prose-strong:text-foreground prose-li:text-text max-w-none overflow-x-hidden">
           {renderMdx({ source: post.content, components })}
         </div>
       </div>
