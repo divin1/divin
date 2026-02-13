@@ -321,8 +321,8 @@ export function BarChart({
               tickLine={false}
               axisLine={{ stroke: "rgba(255, 255, 255, 0.1)" }}
               angle={xAxisAngle}
-              textAnchor={xAxisAngle !== 0 ? "end" : "middle"}
               height={xAxisAngle !== 0 ? 80 : 30}
+              tick={xAxisAngle !== 0 ? { textAnchor: "end" } : undefined}
               interval={0}
             />
             <YAxis
@@ -407,8 +407,8 @@ export function BarChart({
             tickLine={false}
             axisLine={{ stroke: "rgba(255, 255, 255, 0.1)" }}
             angle={xAxisAngle}
-            textAnchor={xAxisAngle !== 0 ? "end" : "middle"}
             height={xAxisAngle !== 0 ? 80 : 30}
+            tick={xAxisAngle !== 0 ? { textAnchor: "end" } : undefined}
             interval={0}
           />
           <YAxis
