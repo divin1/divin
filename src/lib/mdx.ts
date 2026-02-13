@@ -13,6 +13,7 @@ export async function renderMdx({ source, components = {} }: RenderMdxOptions) {
     source,
     options: {
       parseFrontmatter: true,
+      blockJS: false,
       mdxOptions: {
         remarkPlugins: [remarkGfm],
       },
