@@ -13,6 +13,7 @@ import {
 import { Tabs, Tab } from "@/components/posts/Tabs";
 import Heatmap from "@/components/posts/charts/Heatmap";
 import ShareButton from "@/components/ShareButton";
+import Link from "next/link";
 
 // load components to pass to MDX
 const components = {
@@ -32,12 +33,10 @@ const components = {
 type PostProps = {
   post: CompiledPost;
   backTo: string;
-  backToText: string;
+  category: string;
 };
 
-export default async function Post({ post, backTo, backToText }: PostProps) {
-  const category = backToText.replace("All ", "");
-
+export default async function Post({ post, backTo, category }: PostProps) {
   return (
     <article className="my-16 flex flex-col sm:my-20">
       {/* Header Section */}
@@ -52,7 +51,9 @@ export default async function Post({ post, backTo, backToText }: PostProps) {
             })}
           </time>
           <span className="text-text-variant/50">·</span>
-          <span className="text-primary capitalize">{category}</span>
+          <Link href={backTo} className="text-primary capitalize">
+            {category}
+          </Link>
         </div>
 
         {/* Title */}
