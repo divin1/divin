@@ -89,7 +89,13 @@ export function Tabs({ children, defaultTab = 0 }) {
           </button>
         )}
       </div>
-      <div className="tab-content w-0 min-w-full overflow-x-auto">{tabs[activeTab]}</div>
+      <div className="tab-content w-0 min-w-full overflow-x-auto">
+        {tabs.map((tab, index) => (
+          <div key={index} hidden={activeTab !== index} aria-hidden={activeTab !== index}>
+            {tab}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
