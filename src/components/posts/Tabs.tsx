@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, isValidElement, Children } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 // @ts-expect-error annoying to type
@@ -10,7 +10,7 @@ export function Tabs({ children, defaultTab = 0 }) {
   const [canScrollRight, setCanScrollRight] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  const tabs = Array.isArray(children) ? children : [children];
+  const tabs = Children.toArray(children).filter(isValidElement);
 
   const checkScroll = useCallback(() => {
     const container = scrollContainerRef.current;
