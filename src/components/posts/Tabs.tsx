@@ -73,7 +73,7 @@ export function Tabs({ children, defaultTab = 0 }) {
                   : "hover:text-primary-accent text-gray-600"
               }`}
             >
-              {tab.props.label}
+              {(tab.props as { label: string }).label}
             </button>
           ))}
         </div>
