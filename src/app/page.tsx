@@ -23,11 +23,12 @@ export default async function Home() {
         <h1 className="mt-4 text-2xl font-semibold md:text-3xl">{APP_CONFIG.fullName}</h1>
 
         <p className="text-text-variant mt-3 max-w-xl text-base leading-relaxed">
-          Full-Stack Software Engineer in Bern, Switzerland (UTC+1) @{" "}
+          Full-Stack Software Engineer based in Bern, Switzerland (UTC+1) @{" "}
           <a href="https://amaise.com" className="text-primary hover:text-primary-accent">
             amaise
           </a>
-          , focused on architecture, AI, and large-scale data systems.
+          , focused on architecture, large-scale data systems, and AI. <br />
+          <i>Escaping and chasing type 2 fun in the mountains in my time off.</i>
         </p>
       </section>
 
