@@ -21,8 +21,8 @@
     --foreground: #ededed;
     --text: #ededed;
     --text-variant: var(--color-stone-400);
-    --primary: var(--color-indigo-500);
-    --primary-accent: var(--color-indigo-400);
+    --primary: var(--color-stone-200);
+    --primary-accent: var(--color-stone-50);
     --border: var(--color-stone-700);
   }
 }

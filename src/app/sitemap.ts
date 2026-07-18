@@ -17,24 +17,6 @@ export default async function GET(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly",
       priority: 1,
     },
-    {
-      url: `${baseUrl}/about`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/thoughts`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/projects`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
     ...thoughts.map(
       (post) =>
         ({

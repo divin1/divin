@@ -66,7 +66,12 @@ export default function Hello() {
 
   return (
     <AnimatePresence>
-      <motion.h1 initial={{ opacity: 1 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <motion.span
+        className="inline-block"
+        initial={{ opacity: 1 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
         <SplitText
           initial={{ y: "100%" }}
           animate="visible"
@@ -81,7 +86,7 @@ export default function Hello() {
         >
           {hello.text}
         </SplitText>
-      </motion.h1>
+      </motion.span>
     </AnimatePresence>
   );
 }

@@ -12,6 +12,7 @@ import {
 } from "@/components/posts/charts/ChartComponents";
 import { Tabs, Tab } from "@/components/posts/Tabs";
 import Heatmap from "@/components/posts/charts/Heatmap";
+import Mermaid from "@/components/posts/Mermaid";
 import ShareButton from "@/components/ShareButton";
 import Link from "next/link";
 
@@ -24,6 +25,7 @@ const components = {
   PieChart,
   BarList,
   Heatmap,
+  Mermaid,
   Tabs,
   Tab,
   img: ImageWrapper,

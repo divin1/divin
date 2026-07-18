@@ -9,7 +9,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   const post = await getPost(THOUGHTS_PATH, slug);
   if (!post) notFound();
 
-  return <Post post={post} backTo="/thoughts" category="Thoughts" />;
+  return <Post post={post} backTo="/#articles" category="Thoughts" />;
 }
 
 export function generateStaticParams() {
