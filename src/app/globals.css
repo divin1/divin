@@ -55,6 +55,43 @@ body {
   content: none;
 }
 
+/* Header logo hover orb: wavy morphing blob + drifting gradient */
+@keyframes logo-blob {
+  0%,
+  100% {
+    border-radius: 50%;
+  }
+  25% {
+    border-radius: 58% 42% 55% 45% / 45% 55% 42% 58%;
+  }
+  50% {
+    border-radius: 42% 58% 45% 55% / 58% 42% 55% 45%;
+  }
+  75% {
+    border-radius: 55% 45% 58% 42% / 42% 58% 45% 55%;
+  }
+}
+
+@keyframes logo-drift {
+  0%,
+  100% {
+    background-position: 20% 30%;
+    filter: hue-rotate(0deg);
+  }
+  50% {
+    background-position: 80% 70%;
+    filter: hue-rotate(60deg);
+  }
+}
+
+.logo-orb {
+  background: conic-gradient(from 0deg, #6366f1, #a855f7, #ec4899, #6366f1);
+  background-size: 220% 220%;
+  animation:
+    logo-blob 5s ease-in-out infinite,
+    logo-drift 6s ease-in-out infinite;
+}
+
 /* Hide scrollbar utility */
 .scrollbar-none {
   -ms-overflow-style: none;
