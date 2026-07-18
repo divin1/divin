@@ -25,10 +25,7 @@ function Header() {
     >
       <nav className="flex items-center p-6">
         <Link href="/" passHref aria-label="Home">
-          <div className="group relative h-8 w-8 cursor-pointer">
-            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-neutral-200 to-neutral-600 transition-opacity duration-500 group-hover:opacity-0" />
-            <div className="logo-orb absolute inset-0 rounded-full opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-          </div>
+          <div className="logo-orb h-8 w-8 cursor-pointer" />
         </Link>
       </nav>
     </header>
